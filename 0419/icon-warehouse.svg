@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .warehouse-main { fill: #1f2f54; }
+    .warehouse-door { fill: #2a3c6a; }
+    .warehouse-window { fill: #b7d5ff; }
+    .warehouse-accent { fill: #4d9962; }
+    .warehouse-roof { fill: #142036; }
+    .warehouse-detail { fill: #cccccc; }
+  </style>
+  <g>
+    <!-- 倉庫本体 -->
+    <path class="warehouse-main" d="M10,80 L10,35 L50,20 L90,35 L90,80 Z"/>
+    
+    <!-- 屋根 -->
+    <path class="warehouse-roof" d="M50,20 L10,35 L90,35 L50,20 Z"/>
+    <path class="warehouse-accent" d="M50,15 L5,32 L10,35 L50,20 L90,35 L95,32 Z"/>
+    
+    <!-- 大きい扉 -->
+    <path class="warehouse-door" d="M40,80 L40,50 L60,50 L60,80 Z"/>
+    <path class="warehouse-detail" d="M39,80 L39,49 L61,49 L61,80 Z"/>
+    <rect class="warehouse-accent" x="45" y="65" width="10" height="3" rx="1"/>
+    
+    <!-- 窓 -->
+    <rect class="warehouse-window" x="20" y="45" width="10" height="10" rx="1"/>
+    <rect class="warehouse-window" x="70" y="45" width="10" height="10" rx="1"/>
+    
+    <!-- 屋根の詳細 -->
+    <path class="warehouse-detail" d="M20,35 L20,32 L25,30 L25,33 Z"/>
+    <path class="warehouse-detail" d="M80,35 L80,32 L75,30 L75,33 Z"/>
+    
+    <!-- パレット -->
+    <rect class="warehouse-detail" x="70" y="65" width="15" height="2"/>
+    <rect class="warehouse-detail" x="70" y="70" width="15" height="2"/>
+    <rect class="warehouse-detail" x="70" y="75" width="15" height="2"/>
+    <rect class="warehouse-accent" x="73" y="65" width="2" height="15"/>
+    <rect class="warehouse-accent" x="80" y="65" width="2" height="15"/>
+  </g>
+</svg>

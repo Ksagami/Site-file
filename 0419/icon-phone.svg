@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .phone-main { fill: #1f2f54; }
+    .phone-accent { fill: #4d9962; }
+    .phone-detail { fill: #ffffff; }
+  </style>
+  <g>
+    <!-- 電話本体 -->
+    <path class="phone-main" d="M30,15 C25,15 20,20 20,25 L20,40 C20,65 35,80 60,80 L75,80 C80,80 85,75 85,70 L85,60 C85,55 80,50 75,50 L65,50 C60,50 55,55 55,60 C55,63 50,65 45,65 C35,65 35,55 35,45 C35,40 37,35 40,35 C45,35 50,30 50,25 L50,15 C50,10 45,5 40,5 L30,15 Z"/>
+    
+    <!-- 回転する円 -->
+    <circle class="phone-accent" cx="50" cy="50" r="25" opacity="0.2"/>
+    
+    <!-- 電話の受話器 -->
+    <path class="phone-detail" d="M35,35 C32,35 30,40 30,45 C30,55 30,65 40,65 C45,65 50,63 50,60 C50,55 45,50 40,50 L38,50 C38,48 38,42 38,40 L40,40 C45,40 50,35 50,30 C50,25 45,20 40,20 C35,20 30,25 30,30 C30,32 32,35 35,35 Z"/>
+    
+    <!-- 動きを示す波線 -->
+    <path class="phone-accent" d="M60,30 C65,35 68,42 68,50 C68,58 65,65 60,70" fill="none" stroke="#4d9962" stroke-width="3" stroke-linecap="round" stroke-dasharray="1,5"/>
+    <path class="phone-accent" d="M70,20 C78,28 83,38 83,50 C83,62 78,72 70,80" fill="none" stroke="#4d9962" stroke-width="3" stroke-linecap="round" stroke-dasharray="1,5"/>
+  </g>
+</svg>

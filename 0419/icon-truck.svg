@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .truck-body { fill: #1f2f54; }
+    .truck-cabin { fill: #2a3c6a; }
+    .truck-window { fill: #b7d5ff; }
+    .truck-wheel { fill: #333333; }
+    .truck-wheel-inner { fill: #666666; }
+    .truck-light { fill: #ffdd57; }
+    .truck-accent { fill: #4d9962; }
+  </style>
+  <g>
+    <!-- トラック本体 -->
+    <path class="truck-body" d="M10,60 L10,40 L50,40 L50,70 L20,70 L10,60 Z"/>
+    <path class="truck-cabin" d="M50,40 L58,40 L70,52 L70,70 L50,70 Z"/>
+    <path class="truck-window" d="M55,45 L60,45 L65,52 L65,60 L55,60 Z"/>
+    
+    <!-- 荷台 -->
+    <path class="truck-cabin" d="M70,55 L90,55 L90,70 L70,70 Z"/>
+    <path class="truck-accent" d="M70,55 L90,55 L90,58 L70,58 Z"/>
+    
+    <!-- タイヤ -->
+    <circle class="truck-wheel" cx="30" cy="70" r="10"/>
+    <circle class="truck-wheel-inner" cx="30" cy="70" r="5"/>
+    <circle class="truck-wheel" cx="80" cy="70" r="10"/>
+    <circle class="truck-wheel-inner" cx="80" cy="70" r="5"/>
+    
+    <!-- ヘッドライト -->
+    <circle class="truck-light" cx="10" cy="45" r="3"/>
+    
+    <!-- グリル -->
+    <rect class="truck-accent" x="12" y="50" width="15" height="3" rx="1"/>
+    <rect class="truck-accent" x="12" y="55" width="15" height="3" rx="1"/>
+  </g>
+</svg>

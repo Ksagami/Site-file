@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .mail-main { fill: #1f2f54; }
+    .mail-accent { fill: #4d9962; }
+    .mail-detail { fill: #ffffff; }
+    .mail-highlight { fill: #b7d5ff; }
+  </style>
+  <g>
+    <!-- 封筒本体 -->
+    <rect class="mail-main" x="15" y="25" width="70" height="50" rx="5"/>
+    
+    <!-- 封筒の背面 -->
+    <path class="mail-highlight" d="M80,30 L50,55 L20,30 L80,30 Z" opacity="0.2"/>
+    
+    <!-- 封筒のフラップ -->
+    <path class="mail-accent" d="M15,25 L50,45 L85,25 Z"/>
+    
+    <!-- 中のレター -->
+    <path class="mail-detail" d="M20,30 L50,55 L80,30 L20,30 Z"/>
+    
+    <!-- 封筒の線 -->
+    <path fill="none" stroke="#4d9962" stroke-width="2" stroke-linecap="round" d="M20,75 L45,55"/>
+    <path fill="none" stroke="#4d9962" stroke-width="2" stroke-linecap="round" d="M80,75 L55,55"/>
+    
+    <!-- 封筒の装飾 -->
+    <circle class="mail-accent" cx="50" cy="55" r="3"/>
+    
+    <!-- 通知アイコン -->
+    <circle class="mail-accent" cx="75" cy="25" r="8"/>
+    <path class="mail-detail" d="M75,22 L75,28 M75,30 L75,30.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

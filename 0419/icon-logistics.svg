@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .logistics-main { fill: #1f2f54; }
+    .logistics-accent { fill: #4d9962; }
+    .logistics-light { fill: #b7d5ff; }
+    .logistics-detail { fill: #ffffff; }
+    .logistics-line { fill: none; stroke: #4d9962; stroke-width: 2; stroke-linecap: round; }
+  </style>
+  <g>
+    <!-- グローブ/地球 -->
+    <circle class="logistics-main" cx="50" cy="50" r="30"/>
+    <path class="logistics-accent" d="M50,20 C63.8,20 75,31.2 75,45 C75,58.8 63.8,70 50,70 C36.2,70 25,58.8 25,45 C25,31.2 36.2,20 50,20 Z" opacity="0.2"/>
+    
+    <!-- 経度緯度線 -->
+    <path class="logistics-line" d="M50,20 C56,28 56,42 50,50 C44,58 44,72 50,80"/>
+    <path class="logistics-line" d="M25,40 C33,46 47,46 55,50 C63,54 77,54 85,50"/>
+    
+    <!-- 拠点 -->
+    <circle class="logistics-accent" cx="30" cy="35" r="5"/>
+    <circle class="logistics-accent" cx="60" cy="70" r="5"/>
+    <circle class="logistics-accent" cx="70" cy="40" r="5"/>
+    
+    <!-- 拠点を結ぶ線 -->
+    <path class="logistics-line" d="M30,35 L70,40"/>
+    <path class="logistics-line" d="M70,40 L60,70"/>
+    <path class="logistics-line" d="M60,70 L30,35"/>
+    
+    <!-- データポイント -->
+    <circle class="logistics-detail" cx="30" cy="35" r="2"/>
+    <circle class="logistics-detail" cx="60" cy="70" r="2"/>
+    <circle class="logistics-detail" cx="70" cy="40" r="2"/>
+    
+    <!-- グラフ/チャートアイコン -->
+    <rect class="logistics-light" x="15" y="75" width="20" height="10" rx="2"/>
+    <rect class="logistics-accent" x="40" y="70" width="20" height="15" rx="2"/>
+    <rect class="logistics-main" x="65" y="65" width="20" height="20" rx="2"/>
+  </g>
+</svg>

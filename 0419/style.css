@@ -1,0 +1,593 @@
+@charset "UTF-8";
+/* CSS Document */
+/* 基本設定 */
+:root {
+  --primary-color: #1a5fa3; /* メインカラー - ダークブルー */
+  --secondary-color: #38b44a; /* アクセントカラー - グリーン */
+  --light-color: #ffffff;
+  --dark-color: #333333;
+  --gray-color: #f2f2f2;
+  --tertiary-color: #f99d33;
+  --text-color: #333333;
+  --shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--light-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: var(--transition);
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.primary-btn {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  border: 2px solid var(--primary-color);
+}
+
+.primary-btn:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.secondary-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
+/* ヘッダー */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 15px 0;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 60px;
+}
+
+nav ul {
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 30px;
+}
+
+nav ul li a {
+  position: relative;
+  font-weight: 500;
+  padding: 10px 0;
+  color: var(--dark-color);
+}
+
+nav ul li a:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: linear-gradient(90deg, var(--secondary-color), var(--tertiary-color))
+  transition: var(--transition);
+  border-radius: 2px;
+}
+
+nav ul li a:hover:after,
+nav ul li a.active:after {
+  width: 100%;
+}
+
+nav ul li a.active {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* メインコンテンツ */
+main {
+  margin-top: 90px;
+}
+
+/* セクション共通 */
+section {
+  padding: 80px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  position: relative;
+  display: inline-block;
+}
+
+.section-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: var(--secondary-color);
+}
+
+.section-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* ヒーローセクション */
+.hero {
+  height: 80vh;
+  min-height: 600px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-color);
+  text-align: center;
+  margin-top: 0;
+}
+
+.hero-content {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* サービス紹介セクション */
+.services {
+  background-color: var(--gray-color);
+}
+
+.service-cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.service-card {
+  background-color: var(--light-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.service-card:nth-child(1) {
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.service-card:nth-child(2) {
+  border-bottom: 3px solid var(--secondary-color);
+}
+
+.service-card:nth-child(3) {
+  border-bottom: 3px solid var(--tertiary-color);
+}
+
+.service-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: var(--gray-color);
+}
+
+.service-card:nth-child(1) .service-icon {
+  background-color: rgba(26, 95, 163, 0.1);
+}
+
+.service-card:nth-child(2) .service-icon {
+  background-color: rgba(56, 180, 74, 0.1);
+}
+
+.service-card:nth-child(3) .service-icon {
+  background-color: rgba(249, 157, 51, 0.1);
+}
+
+.service-icon img {
+  width: 100%;
+  height: auto;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.service-card p {
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.read-more {
+  color: var(--secondary-color);
+  font-weight: 600;
+  position: relative;
+}
+
+.read-more:after {
+  content: '→';
+  margin-left: 5px;
+  transition: var(--transition);
+}
+
+.read-more:hover:after {
+  margin-left: 10px;
+}
+/* 会社の強みセクション */
+.strengths {
+  background-color: var(--light-color);
+}
+
+.strength-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.strength-item {
+  position: relative;
+  padding: 30px;
+  margin-bottom: 30px;
+  border-left: 3px solid var(--secondary-color);
+  background-color: rgba(77, 153, 98, 0.05);
+  transition: var(--transition);
+}
+
+.strength-item:hover {
+  background-color: rgba(77, 153, 98, 0.1);
+}
+
+.strength-number {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(31, 47, 84, 0.1);
+}
+
+.strength-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.strength-item p {
+  max-width: 70%;
+}
+
+/* お知らせセクション */
+.news {
+  background-color: var(--gray-color);
+}
+
+.news-list {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.news-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--light-color);
+  border-bottom: 1px solid #eee;
+  transition: var(--transition);
+}
+
+.news-item:hover {
+  background-color: rgba(31, 47, 84, 0.03);
+}
+
+.news-date {
+  width: 110px;
+  color: #666;
+}
+
+.news-category {
+  width: 120px;
+  text-align: center;
+  padding: 5px 10px;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.news-title {
+  flex-grow: 1;
+  padding-left: 30px;
+}
+
+.news-title a:hover {
+  color: var(--secondary-color);
+}
+
+.news-more {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* お問い合わせセクション */
+.contact {
+  background-image: linear-gradient(rgba(26, 95, 163, 0.9), rgba(56, 180, 74, 0.8)), url('contact-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: var(--light-color);
+}
+
+.contact-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.contact p {
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+.contact-phone,
+.contact-mail {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.contact-phone:hover,
+.contact-mail:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.contact-icon {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
+}
+
+.contact-text {
+  text-align: left;
+}
+
+.contact-phone a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--light-color);
+}
+
+.contact-phone .time {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* フッター */
+footer {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  padding: 80px 0 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 50px;
+}
+
+.footer-logo img {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.footer-address p {
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.footer-nav-group h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-nav-group h3:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background-color: var(--secondary-color);
+}
+
+.footer-nav-group ul li {
+  margin-bottom: 10px;
+}
+
+.footer-nav-group ul li a {
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.footer-nav-group ul li a:hover {
+  opacity: 1;
+  padding-left: 5px;
+}
+
+.copyright {
+  margin-top: 50px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.copyright p {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.service-card,
+.strength-item,
+.news-item {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.service-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.service-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.strength-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.strength-item:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ホバーエフェクト */
+.service-card:hover .service-icon img {
+  transform: scale(1.1);
+}
+
+/* スクロール時のヘッダー縮小 */
+header.scrolled {
+  padding: 10px 0;
+}
+
+header.scrolled .logo img {
+  height: 50px;
+}
