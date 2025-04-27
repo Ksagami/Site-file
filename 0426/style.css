@@ -1,0 +1,493 @@
+/* 画面全体中央配置 + 背景色 */
+html, body {
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+
+/* コンテナの3Dアニメ */
+#container {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  animation: vanishReappear3D 3s linear forwards;
+  animation-delay: 2.8s; /* X線描画完了時間に合わせて短縮 */
+  z-index: 2;
+}
+
+@keyframes vanishReappear3D {
+  0% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(600px) translateY(-250px) rotateX(55deg) scale(1.16,1.3);
+  }
+}
+
+/* X線が半透明になるアニメーション */
+@keyframes fadeXLines {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0.25;
+    filter: blur(2px);
+  }
+}
+
+/* X線の半透明化設定 */
+#main-svg {
+  position: relative;
+  z-index: 2;
+  animation: fadeXLines 1.5s ease-in-out forwards;
+  animation-delay: 6.0s; /* 3D変形完了後 - 時間短縮 */
+}
+
+/* SVGの基本スタイル */
+svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* メインライン - 黒色細線に変更 */
+.main-line {
+  fill: none;
+  stroke: #010101; /* 黒色に変更 */
+  stroke-width: 5; /* 2.5pxに細く */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.6)); /* 控えめな発光 */
+}
+
+/* 内側の輝き効果 - 新規追加 */
+.inner-glow {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.8); /* 半透明白 */
+  stroke-width: 1.5; /* メインラインより細く */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: blur(1px) drop-shadow(0 0 2px rgba(255, 255, 255, 0.7)); /* 内側の微かな輝き */
+  opacity: 0;
+}
+
+/* X要素を最初は非表示に */
+#_1, #_2, #_3, #_4, #_5, #_6 {
+  opacity: 0;
+}
+
+/* 各X要素の表示タイミング */
+@keyframes showPath {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ライトトレースエフェクト用のグループ */
+.x-line {
+  position: relative;
+}
+
+/* 光の粒要素 - 適切な太さに調整 */
+.light-particle {
+  fill: none;
+  stroke: #FFFFFF; /* 純白 */
+  stroke-width: 3.5; /* 線本体より少し太く */
+  stroke-linecap: round;
+  filter: blur(3px) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* 発光効果強化 */
+  opacity: 0;
+}
+
+/* 光の軌跡効果 - シャープに */
+.trail-effect {
+  fill: none;
+  stroke: #F0F0F0; /* 明るいシルバー */
+  stroke-width: 2; /* 主線よりわずかに細く */
+  stroke-linecap: round;
+  filter: blur(1.5px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5)); /* やや強化 */
+  opacity: 0;
+}
+
+/* 内側の輝きのアニメーション - 新規追加 */
+@keyframes innerGlow {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(1px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  }
+  80% {
+    opacity: 0.2;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 内側の輝きのアニメーション - 逆回り用 */
+@keyframes innerGlowReverse {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(1px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  }
+  80% {
+    opacity: 0.2;
+  }
+  100% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+}
+
+/* 光の粒のアニメーション - スピード調整 */
+@keyframes traceLight {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  15% {
+    opacity: 0.9;
+    filter: blur(3px) drop-shadow(0 0 7px rgba(255, 255, 255, 0.9));
+  }
+  40% {
+    opacity: 0.7;
+    filter: blur(3px) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 光の粒のアニメーション - 逆回り用 */
+@keyframes traceLightReverse {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  15% {
+    opacity: 0.9;
+    filter: blur(3px) drop-shadow(0 0 7px rgba(255, 255, 255, 0.9));
+  }
+  40% {
+    opacity: 0.7;
+    filter: blur(3px) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+}
+
+/* 光の軌跡のアニメーション - より長く残るように */
+@keyframes trailEffect {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.4;
+    filter: blur(1.5px) drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+  }
+  50% {
+    opacity: 0.3;
+    filter: blur(1.5px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+  }
+  80% {
+    opacity: 0.1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 光の軌跡のアニメーション - 逆回り用 */
+@keyframes trailEffectReverse {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.4;
+    filter: blur(1.5px) drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+  }
+  50% {
+    opacity: 0.3;
+    filter: blur(1.5px) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+  }
+  80% {
+    opacity: 0.1;
+  }
+  100% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+}
+
+/* 線描画のアニメーション */
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: var(--path-length);
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 線描画のアニメーション - 逆回り用 */
+@keyframes drawLineReverse {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: var(--path-length);
+  }
+}
+
+/* 光のグロー効果 - 強化 */
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  }
+  100% {
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
+  }
+}
+
+/* 1番と2番のラインスタイル */
+#_1, #_2 {
+  animation: showPath 0.1s forwards;
+  animation-delay: 1.5s; /* ダイヤモンド表示後すぐに開始 */
+}
+
+#_1 .main-line, #_2 .main-line {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: 
+    drawLine 1.3s ease-out forwards,
+    glowPulse 1.5s ease-in-out forwards;
+  animation-delay: 1.5s, 2.8s; /* 2.8秒後に全ての線が同時に終わるよう調整 */
+}
+
+/* 1番と2番の内側の輝き - 新規追加 */
+#_1 .inner-glow, #_2 .inner-glow {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: innerGlow 1.1s ease-out forwards;
+  animation-delay: 1.4s;
+}
+
+/* 1番と2番の光の粒 */
+#_1 .light-particle, #_2 .light-particle {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: traceLight 1.1s ease-out forwards;
+  animation-delay: 1.3s;
+}
+
+/* 1番と2番の光の軌跡 */
+#_1 .trail-effect, #_2 .trail-effect {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: trailEffect 1.3s ease-out forwards;
+  animation-delay: 1.4s;
+}
+
+/* 3番と4番のラインスタイル */
+#_3, #_4 {
+  animation: showPath 0.1s forwards;
+  animation-delay: 1.8s; /* 0.3秒遅く */
+}
+
+#_3 .main-line, #_4 .main-line {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: 
+    drawLine 1.0s ease-out forwards,
+    glowPulse 1.5s ease-in-out forwards;
+  animation-delay: 1.8s, 2.8s; /* 2.8秒後に全ての線が同時に終わるよう調整 */
+}
+
+/* 3番と4番の内側の輝き - 新規追加 */
+#_3 .inner-glow, #_4 .inner-glow {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: innerGlow 0.8s ease-out forwards;
+  animation-delay: 1.7s;
+}
+
+/* 3番と4番の光の粒 */
+#_3 .light-particle, #_4 .light-particle {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: traceLight 0.8s ease-out forwards;
+  animation-delay: 1.6s;
+}
+
+/* 3番と4番の光の軌跡 */
+#_3 .trail-effect, #_4 .trail-effect {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+  animation: trailEffect 1.0s ease-out forwards;
+  animation-delay: 1.7s;
+}
+
+/* 5番と6番のラインスタイル - 逆回り */
+#_5, #_6 {
+  animation: showPath 0.1s forwards;
+  animation-delay: 2.1s; /* さらに0.3秒遅く */
+}
+
+#_5 .main-line, #_6 .main-line {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: calc(var(--path-length) * -1); /* 逆方向の初期値 */
+  animation: 
+    drawLine 0.7s ease-out forwards,
+    glowPulse 1.5s ease-in-out forwards;
+  animation-delay: 2.1s, 2.8s; /* 2.8秒後に全ての線が同時に終わるよう調整 */
+}
+
+/* 5番と6番の内側の輝き - 新規追加（逆回り） */
+#_5 .inner-glow, #_6 .inner-glow {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: calc(var(--path-length) * -1); /* 逆方向の初期値 */
+  animation: innerGlow 0.5s ease-out forwards;
+  animation-delay: 2.0s;
+}
+
+/* 5番と6番の光の粒 - 逆回り */
+#_5 .light-particle, #_6 .light-particle {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: calc(var(--path-length) * -1); /* 逆方向の初期値 */
+  animation: traceLight 0.5s ease-out forwards;
+  animation-delay: 1.9s;
+}
+
+/* 5番と6番の光の軌跡 - 逆回り */
+#_5 .trail-effect, #_6 .trail-effect {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: calc(var(--path-length) * -1); /* 逆方向の初期値 */
+  animation: trailEffect 0.7s ease-out forwards;
+  animation-delay: 2.0s;
+}
+
+/* 追加の輝き効果 - 全体的な光の強調 */
+.x-line path {
+  transform-origin: center;
+  animation: subtleFlicker 3s ease-in-out infinite alternate;
+  animation-delay: calc(var(--index) * 0.2s);
+}
+
+@keyframes subtleFlicker {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.05);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+/* ロゴの上方移動用アニメーション */
+@keyframes logoMoveUp {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 60px));
+    opacity: 0.8
+  }
+}
+
+/* ロゴ表示 */
+#logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2400px;
+  opacity: 0;
+  animation: 
+    logoFadeIn 1s forwards,
+    logoMoveUp 2.2s forwards;
+  animation-delay: 
+    1.5s, /* フェードインの遅延 */
+    5.0s; /* 移動開始の遅延 - 時間短縮 */
+  z-index: 4;
+}
+
+/* アニメーションの定義 */
+@keyframes logoFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ダイヤモンドアニメーション - 徐々に薄くなる */
+/* ダイヤのパスは塗りのみ */
+#diamond path {
+  fill: #1f2f54 !important;
+  stroke: none !important;
+  opacity: 0;
+  animation: showDiamond 1.5s forwards;
+}
+
+@keyframes showDiamond {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ダイヤ全体を徐々に薄くしていき、3D変形直前まで残す */
+@keyframes fadeOutSlowly {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  80%  { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+/* ダイヤ全体を徐々にフェードアウト - 3D変形直前まで残す */
+#diamond {
+  animation: fadeOutSlowly 2.5s forwards;
+  animation-delay: 1.5s; /* X線描画開始と同時に徐々に薄くなり始める */
+}
