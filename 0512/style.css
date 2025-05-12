@@ -1,0 +1,513 @@
+/* 画面全体中央配置 + ラジアルグラデーション背景 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #ffffff, #f0f0f0);
+  overflow: hidden;
+  position: relative;
+}
+
+/* 背景の街並み画像 - 初期状態では非表示 */
+#town-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  object-position: 49.5% center;
+}
+
+/* コンテナの3Dアニメ - 3秒に短縮 */
+#container {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  animation: vanishReappear3D 3s linear forwards; /* 3秒に短縮 */
+  animation-delay: 4.2s; /* X線描画完了後に開始 */
+  z-index: 2;
+}
+
+@keyframes vanishReappear3D {
+  0% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(600px) translateY(-250px) rotateX(55deg) scale(1.16,1.3);
+  }
+}
+
+/* SVGの基本スタイル */
+svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* X線の発光効果強化 */
+.main-line {
+  fill: none;
+  stroke: #c0c0c0; /* より明るいグレー */
+  stroke-width: 5; /* 線を太く */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.white-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+}
+
+.glow-trace {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: blur(5px) drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+/* X線の共通スタイル設定 */
+.x-line {
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+}
+
+.x-line .main-line, .x-line .white-line, .x-line .glow-trace {
+  stroke-dasharray: var(--path-length);
+}
+
+/* すべての線を正方向に統一（5-6番も含む） */
+#_1 .main-line, #_2 .main-line, #_3 .main-line, #_4 .main-line,
+#_5 .main-line, #_6 .main-line,
+#_1 .white-line, #_2 .white-line, #_3 .white-line, #_4 .white-line,
+#_5 .white-line, #_6 .white-line,
+#_1 .glow-trace, #_2 .glow-trace, #_3 .glow-trace, #_4 .glow-trace,
+#_5 .glow-trace, #_6 .glow-trace {
+  stroke-dashoffset: var(--path-length);
+}
+
+/* フェードイン用 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 発光エフェクトのアニメーション追加 */
+@keyframes glowPulse {
+  0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)); }
+  50% { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
+  100% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)); }
+}
+
+/* 線描画のアニメーション - 正方向 */
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: var(--path-length);
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* シンプルな光のトレースエフェクト - 正方向 */
+@keyframes glowTrace {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 各線のアニメーション設定 - X線開始タイミング調整 */
+/* 1番線 - 開始：0.85秒後、線時間：2.5秒 */
+#_1 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 0.85s, 0.85s;
+}
+#_1 .white-line, #_1 .main-line {
+  animation: drawLine 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.85s;
+}
+#_1 .glow-trace {
+  animation: glowTrace 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.85s;
+}
+
+/* 2番線 - 開始：0.89秒後、線時間：2.46秒 */
+#_2 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 0.89s, 0.89s;
+}
+#_2 .white-line, #_2 .main-line {
+  animation: drawLine 2.46s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.89s;
+}
+#_2 .glow-trace {
+  animation: glowTrace 2.46s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.89s;
+}
+
+/* 3番線 - 開始：0.93秒後、線時間：2.42秒 */
+#_3 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 0.93s, 0.93s;
+}
+#_3 .white-line, #_3 .main-line {
+  animation: drawLine 2.42s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.93s;
+}
+#_3 .glow-trace {
+  animation: glowTrace 2.42s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.93s;
+}
+
+/* 4番線 - 開始：0.97秒後、線時間：2.38秒 */
+#_4 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 0.97s, 0.97s;
+}
+#_4 .white-line, #_4 .main-line {
+  animation: drawLine 2.38s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.97s;
+}
+#_4 .glow-trace {
+  animation: glowTrace 2.38s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 0.97s;
+}
+
+/* 5番線 - 開始：1.01秒後、線時間：2.34秒 */
+#_5 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 1.01s, 1.01s;
+}
+#_5 .white-line, #_5 .main-line {
+  animation: drawLine 2.34s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 1.01s;
+}
+#_5 .glow-trace {
+  animation: glowTrace 2.34s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 1.01s;
+}
+
+/* 6番線 - 開始：1.05秒後、線時間：2.3秒 */
+#_6 {
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+  animation-delay: 1.05s, 1.05s;
+}
+#_6 .white-line, #_6 .main-line {
+  animation: drawLine 2.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 1.05s;
+}
+#_6 .glow-trace {
+  animation: glowTrace 2.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  animation-delay: 1.05s;
+}
+
+/* ダイヤモンドアニメーション - 滲み出る効果（1.2秒に延長） */
+#diamond {
+  opacity: 0;
+  animation: diamondBleedIn 1.2s forwards, diamondFadeOutSlowly 3s forwards;
+  animation-delay: 0s, 1.2s; /* bleedin完了後にフェードアウト開始 */
+  filter: blur(0);
+}
+
+#diamond path {
+  fill: #1f2f54 !important;
+  stroke: none !important;
+}
+
+@keyframes diamondBleedIn {
+  0% { 
+    opacity: 0; 
+    filter: blur(15px);
+  }
+  20% {
+    opacity: 0.2;
+    filter: blur(12px);
+  }
+  40% {
+    opacity: 0.4;
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+  80% {
+    opacity: 0.8;
+    filter: blur(4px);
+  }
+  100% { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+}
+
+@keyframes diamondFadeOutSlowly {
+  0%   { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+  50%  { 
+    opacity: 0.7; 
+    filter: blur(1px);
+  }
+  80%  { 
+    opacity: 0.4; 
+    filter: blur(2px);
+  }
+  100% { 
+    opacity: 0; 
+    filter: blur(4px);
+  }
+}
+
+/* ロゴのブラー用アニメーション */
+@keyframes logoBlur {
+  0% { filter: blur(0); }
+  100% { filter: blur(6px); }
+}
+
+@keyframes logoUnblur {
+  0% { filter: blur(6px); }
+  100% { filter: blur(0); }
+}
+
+@keyframes logoFinalOpacity {
+  0% { opacity: 0.96; }
+  100% { opacity: 1; }
+}
+
+/* ロゴ表示 - ゆっくりフェードイン */
+#logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2400px;
+  opacity: 0;
+  animation: 
+    logoFadeIn 3.35s forwards,
+    logoMoveUp 3s forwards,
+    logoBlur 1.5s ease-in-out forwards,
+    logoUnblur 1s ease-out forwards,
+    logoFinalOpacity 0.5s ease-out forwards;
+  animation-delay: 0.85s, 4.2s, 4.2s, 7.2s, 7.2s; /* ダイヤと同時にフェードイン開始 */
+  z-index: 4;
+}
+
+@keyframes logoFadeIn {
+  0% { opacity: 0; }
+  50% { opacity: 0.3; }
+  75% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes logoMoveUp {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 60px));
+    opacity: 1; /* 完全不透明に設定 */
+  }
+}
+
+/* X線のブラー用アニメーション */
+@keyframes xLinesBlur {
+  0% { 
+    filter: blur(0); 
+    opacity: 1;
+  }
+  100% { 
+    filter: blur(6px);
+    opacity: 0.48;
+  }
+}
+
+/* X線ぼかし効果 - ぼけたままにする */
+#main-svg {
+  animation: xLinesBlur 1.5s ease-in-out forwards;
+  animation-delay: 4.2s; /* 3D開始時にぼかし */
+}
+
+/* キャッチコピースタイルとアニメーション - フェードアウトなし・サイズ拡大 */
+#catchcopy-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  animation: showCatchcopy 0.5s ease-in forwards;
+  animation-delay: 4.2s; /* 3D開始時に表示 */
+  /* 控えめな光のグラデーション背景 */
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+}
+
+/* 光の反射効果 */
+#catchcopy-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+  animation: lightSweep 8s ease-in-out forwards;
+  z-index: -1;
+}
+
+@keyframes lightSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes showCatchcopy {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* キャッチコピーSVG - サイズ拡大・発光効果調整 */
+#catchcopy-svg {
+  width: 90%; /* 80%から90%に拡大 */
+  max-width: 1400px; /* 1200pxから1400pxに拡大 */
+  height: auto;
+  opacity: 0;
+  transform: scale(0.8);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)); /* 控えめな発光効果 */
+  animation: scaleFadeInSvg 2s ease-out forwards;
+  animation-delay: 4.7s;
+}
+
+@keyframes scaleFadeInSvg {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(0.85);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  75% {
+    transform: scale(1.0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* キャッチコピーの光エフェクト - 新バージョン */
+#light-effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  animation: subtlePulseLight 3s ease-in-out infinite;
+  animation-delay: 4.7s;
+  mix-blend-mode: overlay;
+  z-index: -1;
+}
+
+@keyframes subtlePulseLight {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(0.95);
+  }
+}
+
+/* キャッチコピーの背後に暗いオーバーレイを追加 */
+#catchcopy-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.15); /* より透明に調整 */
+  opacity: 0;
+  animation: showOverlay 0.5s ease-in forwards;
+  animation-delay: 4.2s;
+  z-index: -2;
+}
+
+@keyframes showOverlay {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 背景の街並み画像アニメーション */
+@keyframes townFadeInBlur {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(6px);
+  }
+}
+
+@keyframes townUnblur {
+  0% {
+    filter: blur(6px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+#town-background {
+  animation: 
+    townFadeInBlur 1.5s ease-in forwards,
+    townUnblur 1s ease-out forwards;
+  animation-delay: 5.2s, 7.2s;
+}
