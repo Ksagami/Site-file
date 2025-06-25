@@ -1,0 +1,138 @@
+/* ===== リセット ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== ロゴ中央配置 ===== */
+.logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+.logo {
+    width: 2400px;
+    height: auto;
+    filter: drop-shadow(7px 7px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* ===== 下部アニメーションエリア ===== */
+.bottom-animation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    z-index: 5;
+}
+
+/* ===== 4トントラック（中央固定） ===== */
+.truck-container {
+    position: absolute;
+    bottom: -310px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+}
+
+.truck {
+    width: 850px !important;
+    height: auto !important;
+}
+
+.town-scroll {
+    display: flex;
+    animation: scroll-right 30s linear infinite;
+    position: absolute;
+    bottom: 20px;
+    width: 80%;
+    border: 2px solid red;
+}
+
+.newtown {
+    width: 50%;
+    min-width: 400px;   /* 600px → 400px */
+    max-width: 600px;   /* ←追加：上限設定 */
+    height: auto;
+    flex-shrink: 0;
+    border: 1px solid blue;
+}
+
+.town-container {
+    width: 100%;
+    min-width: 400px;   /* 1200px → 400px */
+    max-width: 600px;   /* ←追加：上限設定 */
+    overflow: hidden;
+}
+
+
+/* ===== アニメーション定義 ===== */
+
+/* タイヤ回転アニメーション */
+@keyframes wheel-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* 街並み右スクロールアニメーション */
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* ===== タイヤの回転中心設定 ===== */
+#tire1 polyline {
+    transform-origin: 772.25px 680.38px;
+}
+
+#tire2 polyline {
+    transform-origin: 1025.96px 680.38px;
+}
+
+#tire3 polyline {
+    transform-origin: 1095.87px 680.38px;
+}
+
+/* タイヤスポークの色変更 */
+#tire1 polyline, #tire2 polyline, #tire3 polyline {
+    stroke: #035e87 !important;
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media (max-width: 768px) {
+    .logo {
+        width: 90vw;
+    }
+    
+    .truck {
+        width: 200px !important;
+    }
+    
+    .bottom-animation {
+        height: 200px;
+    }
+    
+    .town-scroll {
+        animation-duration: 20s;
+    }
+}
