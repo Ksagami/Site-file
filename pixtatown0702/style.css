@@ -46,7 +46,7 @@ body {
 }
 
 .logo {
-    width: 3300px;  /* 2400px × 1.5 */
+    width: 2200px;  /* 2400px × 1.5 */
     height: auto;
     filter: drop-shadow(7px 7px 3px rgba(0, 0, 0, 0.3));
 }
@@ -63,7 +63,7 @@ body {
 }
 
 .catch {
-    width: 1680px;  /* 1600px × 1.5 */
+    width: 1500px;  /* 1600px × 1.5 */
     height: auto;
     filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.3));
     position: relative;
@@ -106,7 +106,65 @@ body {
     opacity: 0;
 }
 
+/* ===== 鳥の羽ばたきアニメーション ===== */
+#bird-container {
+    position: fixed;
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+    z-index: 102;
+    animation: bird-float 4s ease-in-out infinite;
+}
 
+#bird-svg {
+    width: 150px;
+    height: auto;
+}
+
+#fether-left, #fether-right, #face {
+    fill: #000;
+}
+
+/* 羽ばたきアニメーション */
+#fether-left {
+    transform-origin: 665px 393px;
+    animation: wing-flap-left 0.3s ease-in-out infinite;
+}
+
+#fether-right {
+    transform-origin: 650px 393px;
+    animation: wing-flap-right 0.3s ease-in-out infinite;
+}
+
+/* 浮遊アニメーション */
+@keyframes bird-float {
+    0%, 100% {
+        transform: translateY(-50%) translateY(0px);
+    }
+    50% {
+        transform: translateY(-50%) translateY(-20px);
+    }
+}
+
+/* 左羽ばたきアニメーション */
+@keyframes wing-flap-left {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-20deg);
+    }
+}
+
+/* 右羽ばたきアニメーション */
+@keyframes wing-flap-right {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(20deg);
+    }
+}
 
 /* ===== 下部アニメーションエリア ===== */
 .bottom-animation {
@@ -114,7 +172,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 290px;  /* 300px × 1.5 */
+    height: 275px;  /* 300px × 1.5 */
     z-index: 5;
     background-color: white;
 }
@@ -122,14 +180,14 @@ body {
 /* ===== 4トントラック（中央固定） ===== */
 .truck-container {
     position: absolute;
-    bottom: -295px;  /* -310px × 1.5 */
+    bottom: -270px;  /* -310px × 1.5 */
     left: 50%;
     transform: translateX(-50%);
     z-index: 8;
 }
 
 .truck {
-    width: 820px !important;  /* 850px × 1.5 */
+    width: 750px !important;  /* 850px × 1.5 */
     height: auto !important;
 }
 
@@ -144,7 +202,7 @@ body {
 
 .newtown {
     width: auto;
-    height: 800px;  /* 600px × 1.5 */
+    height: 650px;  /* 600px × 1.5 */
     flex-shrink: 0;
 }
 
@@ -221,5 +279,13 @@ body {
     
     .orange-background {
         height: 100vh;
+    }
+    
+    #bird-container {
+        right: 10%;
+    }
+    
+    #bird-svg {
+        width: 100px;
     }
 }
