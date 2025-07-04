@@ -1,0 +1,209 @@
+/* リセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+/* ロゴ中央配置 */
+.logo-container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+.logo {
+    width: min(2200px, 114.58vw);
+    height: auto;
+    filter: drop-shadow(7px 7px 3px rgba(0, 0, 0, 0.3));
+}
+
+/* オレンジグラデーション背景 */
+.orange-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 1;
+}
+
+.orange-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 下部アニメーションエリア */
+.bottom-animation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 275px;
+    z-index: 5;
+    background-color: white;
+}
+
+/* 街並みスクロール */
+.town-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.town-scroll {
+    display: flex;
+    animation: scroll-right 60s linear infinite;
+    position: absolute;
+    bottom: 20px;
+    width: auto;
+}
+
+.newtown {
+    width: auto;
+    height: min(540px, 50vh);
+    flex-shrink: 0;
+}
+
+@keyframes scroll-right {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* 4トントラック */
+.truck-container {
+    position: absolute;
+    bottom: -250px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+}
+
+.truck {
+    width: min(691px, 36vw) !important;
+    max-width: 756px !important;
+    height: auto !important;
+}
+
+/* タイヤ回転アニメーション */
+@keyframes wheel-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+/* タイヤの回転中心設定 */
+#tire1 polyline {
+    transform-origin: 772.25px 680.38px;
+    animation: wheel-spin 3s linear infinite;
+}
+
+#tire2 polyline {
+    transform-origin: 1025.96px 680.38px;
+    animation: wheel-spin 3s linear infinite;
+}
+
+#tire3 polyline {
+    transform-origin: 1095.87px 680.38px;
+    animation: wheel-spin 3s linear infinite;
+}
+
+/* 鳥アニメーション */
+/* 鳥アニメーション */
+.bird-container {
+    position: fixed;
+    top: 50%;
+    right: 20%;
+    transform: translateY(-50%);
+    z-index: 200;
+    display: none;
+}
+
+.bird-svg {
+    width: 150px;
+    height: auto;
+}
+
+.fether-left, .fether-right, .face {
+    fill: #000;
+}
+
+/* レスポンシブ対応 */
+
+/* 2560px以上（4K） */
+@media (min-width: 2560px) {
+    .logo {
+        width: 2200px;
+    }
+    .truck {
+        width: 691px !important;
+    }
+    .newtown {
+        height: 540px;
+    }
+}
+
+/* 1366px（ノートPC） */
+@media (max-width: 1366px) {
+    .logo {
+        width: min(1565px, 114.58vw);
+    }
+    .truck {
+        width: min(492px, 36vw) !important;
+    }
+    .truck-container {
+        bottom: -178px;
+    }
+    .newtown {
+        height: min(450px, 50vh);
+    }
+}
+
+/* 768px（タブレット） */
+@media (max-width: 768px) {
+    .logo {
+        width: min(880px, 114.58vw);
+    }
+    .truck {
+        width: min(276px, 36vw) !important;
+    }
+    .truck-container {
+        bottom: -100px;
+    }
+    .newtown {
+        height: min(300px, 50vh);
+    }
+}
+
+/* 375px（iPhone） */
+@media (max-width: 375px) {
+    .logo {
+        width: min(429px, 114.58vw);
+    }
+    .truck {
+        width: min(135px, 36vw) !important;
+    }
+    .truck-container {
+        bottom: -49px;
+    }
+    .newtown {
+        height: min(200px, 50vh);
+    }
+}
