@@ -38,6 +38,12 @@ body {
     opacity: 0.15;
 }
 
+/* ロゴの完全非表示 */
+.logo-container.hide {
+    opacity: 0;
+    transition: opacity 3s ease-out;
+}
+
 /* オレンジグラデーション背景 */
 .orange-background {
     position: absolute;
@@ -77,6 +83,11 @@ body {
     filter: blur(0);
 }
 
+.catch-container.hide {
+    opacity: 0;
+    transition: opacity 3s ease-out;
+}
+
 .catch {
     width: min(1500px, 78.125vw);
     height: auto;
@@ -87,6 +98,42 @@ body {
     filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.3));
 }
 
+/* スライドショー */
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 90;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 3s ease-out;
+}
+
+.slideshow-container.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* 下部アニメーションエリア */
 .bottom-animation {
     position: absolute;
@@ -94,8 +141,32 @@ body {
     left: 0;
     width: 100%;
     height: 275px;
-    z-index: 5;
+    z-index: 95;
     background-color: white;
+    transition: all 3s ease-out;
+}
+
+/* 下部アニメーション縮小時 */
+.bottom-animation.shrink {
+    height: 192.5px; /* 70% */
+	background-color: transparent;
+}
+
+.bottom-animation.shrink .town-scroll {
+    bottom: -6px; /* 20px → -10px に変更（街並みだけ下へ） */
+}
+
+.bottom-animation.shrink .newtown {
+    height: min(378px, 35vh); /* 70%の高さ */
+    filter: grayscale(100%);
+}
+
+.bottom-animation.shrink .truck {
+    width: min(483.7px, 25.2vw) !important; /* 70%のサイズ */
+}
+
+.bottom-animation.shrink .truck-container {
+    bottom: -180px; /* 70%の位置 */
 }
 
 /* 街並みスクロール */

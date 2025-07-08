@@ -22,6 +22,22 @@
         <img src="catch.svg" alt="届けるのは荷物と信頼 結ぶ道、広がる絆" class="catch">
     </div>
     
+    <!-- スライドショー（最初は非表示） -->
+    <div class="slideshow-container">
+        <div class="slide active">
+            <img src="img/slide1.jpg" alt="スライド1">
+        </div>
+        <div class="slide">
+            <img src="img/slide2.jpg" alt="スライド2">
+        </div>
+        <div class="slide">
+            <img src="img/slide3.png" alt="スライド3">
+        </div>
+        <div class="slide">
+            <img src="img/slide4.jpg" alt="スライド4">
+        </div>
+    </div>
+    
     <!-- 鳥の羽ばたきアニメーション（4羽） -->
     <div class="bird-container bird-1">
         <svg class="bird-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 510">
@@ -133,8 +149,35 @@
                 
                 // キャッチコピーにドロップシャドウ追加
                 document.querySelector('.catch-container').classList.add('shadow');
+                
+                // 9.5秒後（7.5秒 + 2秒後）- スライドショーへの移行
+                setTimeout(() => {
+                    // ロゴとキャッチを完全にフェードアウト
+                    document.querySelector('.logo-container').classList.add('hide');
+                    document.querySelector('.catch-container').classList.add('hide');
+                    
+                    // スライドショーを表示
+                    document.querySelector('.slideshow-container').classList.add('show');
+                    
+                    // 街並みとトラックを縮小
+                    document.querySelector('.bottom-animation').classList.add('shrink');
+                    
+                    // スライドショー開始
+                    startSlideshow();
+                }, 2000);
             }, 2000);
         }, 5500);
+        
+        // スライドショー機能
+        let slideIndex = 0;
+        function startSlideshow() {
+            setInterval(() => {
+                const slides = document.querySelectorAll('.slide');
+                slides[slideIndex].classList.remove('active');
+                slideIndex = (slideIndex + 1) % slides.length;
+                slides[slideIndex].classList.add('active');
+            }, 3000); // 3秒ごとにスライド切り替え
+        }
     </script>
 </body>
 </html>
