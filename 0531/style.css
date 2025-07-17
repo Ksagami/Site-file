@@ -1,0 +1,744 @@
+/* 画面全体中央配置 + ラジアルグラデーション背景 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #ffffff, #f0f0f0);
+  overflow: hidden;
+  position: relative;
+}
+
+/* 背景の街並み画像 - 初期状態では非表示 */
+#town-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  object-position: 49.5% center;
+}
+
+/* コンテナの3Dアニメ - 3秒に短縮、開始を1.5秒遅延 */
+#container {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  animation: vanishReappear3D 3s linear forwards;
+  animation-delay: 5.7s;
+  z-index: 2;
+}
+
+@keyframes vanishReappear3D {
+  0% {
+    opacity: 1;
+    transform: perspective(600px) rotateX(0deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(600px) translateY(-250px) rotateX(55deg) scale(1.16,1.3);
+  }
+}
+
+/* SVGの基本スタイル */
+svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* X線の発光効果強化 - ラインキャップをbutt、ジョインはround */
+.main-line {
+  fill: none;
+  stroke: #232323;
+  stroke-width: 6.1;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.white-line {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 5.5;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+}
+
+.glow-trace {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 6px;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  filter: blur(5px) drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+/* X線の共通スタイル設定 */
+.x-line {
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6));
+  animation: fadeIn 0.1s forwards, glowPulse 2s ease-in-out infinite;
+}
+
+.x-line .main-line, .x-line .white-line, .x-line .glow-trace {
+  stroke-dasharray: var(--path-length);
+  stroke-dashoffset: var(--path-length);
+}
+
+/* フェードイン用 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 発光エフェクトのアニメーション */
+@keyframes glowPulse {
+  0% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)); }
+  50% { filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)); }
+  100% { filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)); }
+}
+
+/* 線描画のアニメーション */
+@keyframes drawLine {
+  0% {
+    stroke-dashoffset: var(--path-length);
+  }
+  10% {
+    stroke-dashoffset: calc(var(--path-length) * 0.85);
+  }
+  80% {
+    stroke-dashoffset: calc(var(--path-length) * 0.5);
+  }
+  81% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* グロートレース用のアニメーション */
+@keyframes glowTrace {
+  0% {
+    stroke-dashoffset: var(--path-length);
+    opacity: 0;
+  }
+  3% {
+    stroke-dashoffset: calc(var(--path-length) * 0.9);
+    opacity: 1;
+    filter: blur(3px) drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+  }
+  8% {
+    stroke-dashoffset: calc(var(--path-length) * 0.85);
+    opacity: 0.4;
+    filter: blur(2px);
+  }
+  12% {
+    stroke-dashoffset: calc(var(--path-length) * 0.7);
+    opacity: 0.9;
+    filter: blur(4px) drop-shadow(0 0 12px rgba(255, 255, 255, 0.95));
+  }
+  30% {
+    stroke-dashoffset: calc(var(--path-length) * 0.65);
+    opacity: 0.3;
+  }
+  35% {
+    stroke-dashoffset: calc(var(--path-length) * 0.4);
+    opacity: 1;
+    filter: blur(5px) drop-shadow(0 0 20px rgba(255, 255, 255, 1));
+  }
+  60% {
+    stroke-dashoffset: calc(var(--path-length) * 0.35);
+    opacity: 0.5;
+  }
+  70% {
+    stroke-dashoffset: calc(var(--path-length) * 0.2);
+    opacity: 1;
+    filter: blur(6px) drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    filter: blur(8px) drop-shadow(0 0 30px rgba(255, 255, 255, 1));
+  }
+  90% {
+    opacity: 0.6;
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* X線アニメーション設定（統合版） */
+#_1 { animation-delay: 0.85s, 0.85s; }
+#_1 .white-line, #_1 .main-line { animation: drawLine 2.5s linear forwards; animation-delay: 0.85s; }
+#_1 .glow-trace { animation: glowTrace 2.5s linear forwards; animation-delay: 0.85s; }
+
+#_2 { animation-delay: 0.89s, 0.89s; }
+#_2 .white-line, #_2 .main-line { animation: drawLine 2.46s linear forwards; animation-delay: 0.89s; }
+#_2 .glow-trace { animation: glowTrace 2.46s linear forwards; animation-delay: 0.89s; }
+
+#_3 { animation-delay: 0.93s, 0.93s; }
+#_3 .white-line, #_3 .main-line { animation: drawLine 2.42s linear forwards; animation-delay: 0.93s; }
+#_3 .glow-trace { animation: glowTrace 2.42s linear forwards; animation-delay: 0.93s; }
+
+#_4 { animation-delay: 0.97s, 0.97s; }
+#_4 .white-line, #_4 .main-line { animation: drawLine 2.38s linear forwards; animation-delay: 0.97s; }
+#_4 .glow-trace { animation: glowTrace 2.38s linear forwards; animation-delay: 0.97s; }
+
+#_5 { animation-delay: 1.01s, 1.01s; }
+#_5 .white-line, #_5 .main-line { animation: drawLine 2.34s linear forwards; animation-delay: 1.01s; }
+#_5 .glow-trace { animation: glowTrace 2.34s linear forwards; animation-delay: 1.01s; }
+
+#_6 { animation-delay: 1.05s, 1.05s; }
+#_6 .white-line, #_6 .main-line { animation: drawLine 2.3s linear forwards; animation-delay: 1.05s; }
+#_6 .glow-trace { animation: glowTrace 2.3s linear forwards; animation-delay: 1.05s; }
+
+/* ダイヤモンドアニメーション */
+#diamond {
+  opacity: 0;
+  animation: diamondBleedIn 1.2s forwards, diamondFadeOutSlowly 4.5s forwards;
+  animation-delay: 0s, 2.7s;
+  filter: blur(0);
+}
+
+#diamond path {
+  fill: #1f2f54 !important;
+  stroke: none !important;
+}
+
+@keyframes diamondBleedIn {
+  0% { 
+    opacity: 0; 
+    filter: blur(15px);
+  }
+  20% {
+    opacity: 0.2;
+    filter: blur(12px);
+  }
+  40% {
+    opacity: 0.4;
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.6;
+    filter: blur(8px);
+  }
+  80% {
+    opacity: 0.8;
+    filter: blur(4px);
+  }
+  100% { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+}
+
+@keyframes diamondFadeOutSlowly {
+  0%   { 
+    opacity: 1; 
+    filter: blur(0);
+  }
+  50%  { 
+    opacity: 0.7; 
+    filter: blur(1px);
+  }
+  80%  { 
+    opacity: 0.4; 
+    filter: blur(2px);
+  }
+  100% { 
+    opacity: 0; 
+    filter: blur(4px);
+  }
+}
+
+/* ロゴのブラー用アニメーション */
+@keyframes logoBlur {
+  0% { filter: blur(0); }
+  100% { filter: blur(6px); }
+}
+
+@keyframes logoUnblur {
+  0% { filter: blur(6px); }
+  100% { filter: blur(0); }
+}
+
+@keyframes logoFinalOpacity {
+  0% { opacity: 0.96; }
+  100% { opacity: 1; }
+}
+
+/* ロゴ表示 */
+#logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2400px;
+  opacity: 0;
+  animation: 
+    logoFadeIn 3.35s forwards,
+    logoMoveUp 3s forwards,
+    logoBlur 1.5s ease-in-out forwards,
+    logoUnblur 1s ease-out forwards,
+    logoFinalOpacity 0.5s ease-out forwards;
+  animation-delay: 0.85s, 5.7s, 5.7s, 8.7s, 8.7s;
+  z-index: 4;
+}
+
+@keyframes logoFadeIn {
+  0% { opacity: 0; }
+  50% { opacity: 0.3; }
+  75% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes logoMoveUp {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 60px));
+    opacity: 1;
+  }
+}
+
+/* X線のブラー用アニメーション */
+@keyframes xLinesBlur {
+  0% { 
+    filter: blur(0); 
+    opacity: 1;
+  }
+  100% { 
+    filter: blur(6px);
+    opacity: 0.48;
+  }
+}
+
+/* X線ぼかし効果 */
+#main-svg {
+  animation: xLinesBlur 1.5s ease-in-out forwards;
+  animation-delay: 5.7s;
+}
+
+/* X線の淡色化アニメーション */
+@keyframes xLinesFadeColor {
+  0% { 
+    filter: blur(6px);
+    opacity: 0.48;
+  }
+  100% { 
+    filter: blur(6px) brightness(1.8);
+    opacity: 0.48;
+  }
+}
+
+/* キャッチコピースタイルとアニメーション */
+#catchcopy-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  animation: showCatchcopy 0.5s ease-in forwards;
+  animation-delay: 5.7s;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  margin-top: -29px;
+}
+
+/* 光の反射効果 */
+#catchcopy-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+  animation: lightSweep 8s ease-in-out forwards;
+  z-index: -1;
+}
+
+@keyframes lightSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes showCatchcopy {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* キャッチコピーSVG */
+#catchcopy-svg {
+  width: 90%;
+  max-width: 1400px;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.8);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  animation: scaleFadeInSvg 2s ease-out forwards;
+  animation-delay: 6.2s;
+}
+
+@keyframes scaleFadeInSvg {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  25% {
+    transform: scale(0.85);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  75% {
+    transform: scale(1.0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+#rainbow-line-effect {
+  position: absolute;
+  top: 0;
+  left: -250%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  mix-blend-mode: overlay;
+  z-index: 10;
+  transform: skewX(-20deg);
+  animation: none;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes rainbowFlow {
+  0% {
+    transform: translateX(0) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(500%) skewX(-20deg);
+  }
+}
+
+/* キャッチコピーの光エフェクト */
+#light-effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  animation: subtlePulseLight 3s ease-in-out infinite;
+  animation-delay: 6.2s;
+  mix-blend-mode: overlay;
+  z-index: -1;
+}
+
+@keyframes subtlePulseLight {
+  0% {
+    opacity: 0.1;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.1;
+    transform: scale(0.95);
+  }
+}
+
+/* キャッチコピーの背後に暗いオーバーレイ */
+#catchcopy-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.03) 45%, 
+    rgba(255, 255, 255, 0.15) 50%, 
+    rgba(255, 255, 255, 0.03) 55%, 
+    transparent 100%);
+  opacity: 0;
+  animation: showOverlay 0.5s ease-in forwards, silverSweep 6s ease-in-out infinite;
+  animation-delay: 5.7s, 8.2s;
+  z-index: -2;
+  pointer-events: none;
+}
+
+@keyframes silverSweep {
+  0% { transform: translateX(-100%) translateY(-100%); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+@keyframes showOverlay {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* 背景の街並み画像アニメーション */
+@keyframes townFadeInBlur {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(6px);
+  }
+}
+
+@keyframes townUnblur {
+  0% {
+    filter: blur(6px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+#town-background {
+  animation: 
+    townFadeInBlur 1.5s ease-in forwards,
+    townUnblur 1s ease-out forwards;
+  animation-delay: 6.7s, 8.5s;
+}
+
+/* スライドショー関連のスタイル */
+#slideshow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s ease;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  animation: zoomEffect 8s linear forwards;
+}
+
+@keyframes zoomEffect {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/* 立体回転キューブ用スタイル */
+#cube-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1500px;
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+#cube {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  transform-style: preserve-3d;
+  transition: transform 4.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* キューブが回転するアニメーション */
+#cube.rotate {
+  transform: rotateY(180deg);
+}
+
+/* キューブの各面 */
+.cube-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* 前面 - 現在の画面 */
+#cube-front {
+  transform: translateZ(0.5px);
+  background: radial-gradient(circle at center, #ffffff, #f0f0f0);
+}
+
+/* 現在の画面をキャプチャした要素 */
+#current-scene-capture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('catch.svg') no-repeat center center, radial-gradient(circle at center, #ffffff, #f0f0f0);
+  background-size: 90% auto, cover;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  z-index: 1;
+}
+
+/* 前面に装飾を追加 */
+#current-scene-capture::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  z-index: -1;
+}
+
+/* 背面 - スライドショー */
+#cube-back {
+  transform: rotateY(180deg) translateZ(0.5px);
+  background-color: #000;
+}
+
+/* キューブ内のスライドショー */
+#cube-slideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#cube-slideshow .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#cube-slideshow .slide.active {
+  opacity: 1;
+}
+/* ここまで追加 ↑ */
+
+/* 光の反射効果（キューブの面に） */
+.cube-face::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 100%);
+  pointer-events: none;
+}
+
+@keyframes slideBreakout {
+  0% { 
+    transform: scale(1) rotateY(180deg);
+    filter: brightness(0.8);
+  }
+  100% { 
+    transform: scale(1.2) rotateY(0deg);
+    filter: brightness(1.2);
+  }
+}
+
+#skip-button {
+  position: fixed;
+  bottom: 40px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px; height: 50px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(50,50,50,0.9));
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 25px;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+#skip-button:hover {
+  transform: translateX(-50%) scale(1.05);
+  border-color: #00ff88;
+  box-shadow: 0 0 20px rgba(0,255,136,0.5);
+}
+
+#skip-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  z-index: 1;
+}
+
+/* style.css の最後あたりに追加 */
+#cube-back {
+  /* 裏面も描画されるようにする */
+  backface-visibility: visible !important;
+}
